@@ -47,8 +47,8 @@ function Editing() {
         );
       })}
       <button
-        onClick={handleCreatePost}
-        disabled={isCreate && (queryCreate.isSuccess || query.isError)}>
+        disabled={isCreate && (queryCreate.isSuccess || query.isError)}
+        onClick={handleCreatePost}>
         {" "}
         Create post
       </button>
