@@ -12,6 +12,7 @@ function Home() {
       <Link to='/'>Home</Link>
       <Link to='/react-query'> React query</Link>
       <Link to='/react-useEffect'> React useEffect</Link>
+      <Link to='/react-useEffect-Pagin'> React useEffect Paginating</Link>
     </div>
   );
 }

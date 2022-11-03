@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Page/Home";
 import PostsReact from "./Components/PostsReact";
+import PostPaginator from "./Components/PostPaginator";
 function App() {
   const client = new QueryClient();
   return (
@@ -15,6 +16,11 @@ function App() {
             <Route path='/' exact element={<Home />} />
             <Route path='/react-query' exact element={<Posts />} />
             <Route path='/react-useEffect' exact element={<PostsReact />} />
+            <Route
+              path='/react-useEffect-Pagin'
+              exact
+              element={<PostPaginator />}
+            />
           </Routes>
           <ReactQueryDevtools />
         </BrowserRouter>
