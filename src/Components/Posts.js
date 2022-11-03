@@ -1,19 +1,47 @@
 import React from "react";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 function Posts() {
-  const [posts, setPosts] = useState([]);
-  const fetchApi = async () => {
+  const [page, setPage] = useState(1);
+  const fetchApi = async ({ pageParam = 1 }) => {
     const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
+      `https://jsonplaceholder.typicode.com/posts/${pageParam}`
     );
     return response.data;
   };
-  console.log("posts: ", posts);
-  const { isError, isLoading, data } = useQuery(["posts"], fetchApi, {
-    retry: 1,
-  });
+  // Gọi thuộc tính (các trường họp sử dụng) liên quan đến data
+  const {
+    isError,
+    isLoading,
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchPreviousPage,
+    isFetchingPreviousPage,
+    hasPreviousPage,
+  } = useInfiniteQuery(
+    // state cần gán giá trị cho data
+    [page],
+    // giá trị lấy về
+    fetchApi,
+    // thuộc tính của reactQuerry
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (pages.length < 100) {
+          return pages.length + 1;
+        }
+        return undefined;
+      },
+      getLastPageParam: (lastPage, pages) => {
+        if (pages.length < 100) {
+          return pages.length - 1;
+        }
+        return undefined;
+      },
+    }
+  );
   if (isLoading) {
     return <h1>... Loading</h1>;
   }
@@ -22,11 +50,30 @@ function Posts() {
   }
   return (
     <div>
-      {data?.map((post) => {
-        return <h1 key={post.id}> {post.title}</h1>;
+      {data?.pages.map((page) => {
+        return (
+          <h1 key={page.id}>
+            {page.id} - {page.title}
+          </h1>
+        );
       })}
+      <button
+        disabled={isFetchingNextPage || !hasNextPage}
+        onClick={() => {
+          fetchNextPage();
+        }}>
+        {" "}
+        Load +
+      </button>
+      <button
+        disabled={isFetchingPreviousPage || !hasPreviousPage}
+        onClick={() => {
+          fetchPreviousPage();
+        }}>
+        {" "}
+        Load -
+      </button>
     </div>
   );
 }
-
 export default Posts;
