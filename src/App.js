@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Page/Home";
 import PostsReact from "./Components/PostsReact";
 import PostPaginator from "./Components/PostPaginator";
+import Editing from "./Components/Editing";
 function App() {
   const client = new QueryClient();
   return (
@@ -21,6 +22,7 @@ function App() {
               exact
               element={<PostPaginator />}
             />
+            <Route path='/react-query-edit' exact element={<Editing />} />
           </Routes>
           <ReactQueryDevtools />
         </BrowserRouter>

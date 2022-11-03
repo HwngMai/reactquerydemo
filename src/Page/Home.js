@@ -11,8 +11,9 @@ function Home() {
       <h1>Home Page</h1>
       <Link to='/'>Home</Link>
       <Link to='/react-query'> React query</Link>
-      <Link to='/react-useEffect'> React useEffect</Link>
-      <Link to='/react-useEffect-Pagin'> React useEffect Paginating</Link>
+      <Link to='/react-useEffect'> React useEffect - old way</Link>
+      <Link to='/react-useEffect-Pagin'> React query Paginating</Link>
+      <Link to='/react-query-edit'> React query Editing</Link>
     </div>
   );
 }
