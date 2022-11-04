@@ -6,28 +6,35 @@ import { usePosts } from "../Hooks/PostHook/usePosts";
 function GetQueryClient() {
   const queryClient = useQueryClient();
   // khởi tạo state
-  const [isCreate, setIsCreate] = useState(false);
+
   const [dataPost, setDataPost] = useState({ title: "" });
   // gọi data post = customHook
   const queryPosts = usePosts(1000);
   // gọi func tạo post = customHook
   const queryCreatePost = useCreatePost(dataPost);
+  // tạo func handleCreatePost
   const handleCreatePost = () => {
-    setIsCreate(true);
+    // set state khởi tạo = true để gọi loading screen
+
+    // đưa dữ liệu vào customHook gọi trước đó - l.14
     queryCreatePost.mutate(dataPost, {
+      // thông báo lại cho client có dữ liệu mới ở ["posts"]
       onSuccess: () => {
         queryClient.invalidateQueries(["posts"]);
       },
+      // khi có dữ liệu mới queryPost sẽ gọi lại và render lại
     });
   };
-
+  // nếu query đang loading render trạng thái loading
   if (queryPosts.isLoading) {
     return <h1>... Loading</h1>;
   }
+  // nếu query bị lỗi render trạng thái lỗi
   if (queryPosts.isError) {
     return <h1>Error!</h1>;
   }
   return (
+    // Nếu có dữ liệu
     <div>
       {queryPosts.data?.data.map((post) => {
         return (
@@ -37,6 +44,7 @@ function GetQueryClient() {
         );
       })}
       <input
+      // lấy data của input khi onchange
         onChange={(e) => {
           setDataPost((prevState) => ({
             ...prevState,
