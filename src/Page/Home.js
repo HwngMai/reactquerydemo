@@ -14,6 +14,10 @@ function Home() {
       <Link to='/react-useEffect'> React useEffect - old way</Link>
       <Link to='/react-useEffect-Pagin'> React query Paginating</Link>
       <Link to='/react-query-edit'> React query Editing</Link>
+      <Link to='/react-query-edit-customhook'>
+        {" "}
+        React query Editing Custom Hook
+      </Link>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import Home from "./Page/Home";
 import PostsReact from "./Components/PostsReact";
 import PostPaginator from "./Components/PostPaginator";
 import Editing from "./Components/Editing";
+import EditingCustomHook from "./Components/EditingCustomHook";
 function App() {
   const client = new QueryClient();
   return (
@@ -22,7 +23,13 @@ function App() {
               exact
               element={<PostPaginator />}
             />
+            <Route path='/react-query-edit' exact element={<Editing />} />{" "}
             <Route path='/react-query-edit' exact element={<Editing />} />
+            <Route
+              path='/react-query-edit-customhook'
+              exact
+              element={<EditingCustomHook />}
+            />
           </Routes>
           <ReactQueryDevtools />
         </BrowserRouter>
