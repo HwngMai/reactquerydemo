@@ -18,6 +18,10 @@ function Home() {
         {" "}
         React query Editing Custom Hook
       </Link>
+      <Link to='/react-query-getqueryclient'>
+        {" "}
+        React query Editing Custom Hook
+      </Link>
     </div>
   );
 }

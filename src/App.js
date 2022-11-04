@@ -8,6 +8,7 @@ import PostsReact from "./Components/PostsReact";
 import PostPaginator from "./Components/PostPaginator";
 import Editing from "./Components/Editing";
 import EditingCustomHook from "./Components/EditingCustomHook";
+import GetQueryClient from "./Components/GetQueryClient";
 function App() {
   const client = new QueryClient();
   return (
@@ -29,6 +30,11 @@ function App() {
               path='/react-query-edit-customhook'
               exact
               element={<EditingCustomHook />}
+            />
+            <Route
+              path='/react-query-getqueryclient'
+              exact
+              element={<GetQueryClient />}
             />
           </Routes>
           <ReactQueryDevtools />
