@@ -4,11 +4,8 @@ export const PostServices = {
     let uri = "/posts";
     return https.get(uri);
   },
-  createPost: () => {
+  createPost: (data) => {
     let uri = "/posts";
-    return https.post(uri, {
-      title: "new title",
-      author: "typicode5",
-    });
+    return https.post(uri, data);
   },
 };
