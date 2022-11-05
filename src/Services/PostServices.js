@@ -20,4 +20,8 @@ export const PostServices = {
     let uri = `/posts/${dataId}`;
     return https.delete(uri);
   },
+  editPost: (dataId, data) => {
+    let uri = `/posts/${dataId}`;
+    return https.put(uri, data);
+  },
 };

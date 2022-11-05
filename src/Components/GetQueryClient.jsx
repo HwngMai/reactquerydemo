@@ -4,14 +4,19 @@ import { useState } from "react";
 import { useCreatePost } from "../Hooks/PostHook/useCreatePosts";
 import { usePosts } from "../Hooks/PostHook/usePosts";
 import { useDeletePost } from "../Hooks/PostHook/useDeletePosts";
+import { useEditPost } from "../Hooks/PostHook/useEditPosts";
 function GetQueryClient() {
   const queryClient = useQueryClient();
   // khởi tạo state
   const [dataPost, setDataPost] = useState({ title: "" });
   const [postId, setPostId] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [dataEdit, setDataEdit] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+
   // gọi data post = customHook
   const queryPosts = usePosts(1000);
+
   // gọi func tạo post = customHook
   const queryCreatePost = useCreatePost(dataPost);
   // tạo func handleCreatePost
@@ -26,6 +31,7 @@ function GetQueryClient() {
       // khi có dữ liệu mới queryPost sẽ gọi lại và render lại
     });
   };
+
   // gọi func delete post = customHook
   const queryDeletePost = useDeletePost(postId);
   // tạo func delete post
@@ -40,8 +46,21 @@ function GetQueryClient() {
     setShowConfirm(false);
   };
 
-  //RENDERING
+  // gọi func edit post = customHook
+  const queryEditPost = useEditPost(postId, dataEdit);
+  // tạo func edit post
+  const handleEditPost = (postId, dataEdit) => {
+    queryEditPost.mutate([postId, dataEdit], {
+      // thông báo lại cho client có dữ liệu mới ở ["posts"]
+      onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
+      },
+      // khi có dữ liệu mới queryPost sẽ gọi lại và render lại
+    });
+    setShowEdit(false);
+  };
 
+  //RENDERING
   // nếu query đang loading render trạng thái loading
   if (queryPosts.isLoading) {
     return <h1>... Loading</h1>;
@@ -52,7 +71,6 @@ function GetQueryClient() {
   }
   return (
     // Nếu có dữ liệu
-
     <div>
       {showConfirm && (
         <div>
@@ -64,6 +82,27 @@ function GetQueryClient() {
             }}>
             {" "}
             Xóa{" "}
+          </button>
+        </div>
+      )}
+      {showEdit && (
+        <div>
+          <h1>Edit post {postId} </h1>
+          <input
+            onChange={(e) => {
+              setDataEdit((prevState) => ({
+                ...prevState,
+                title: `${e.target.value}`,
+              }));
+              console.log("data Edit:", dataEdit);
+              console.log("postId :", postId);
+            }}></input>
+          <button
+            onClick={() => {
+              handleEditPost(postId, dataEdit);
+            }}>
+            {" "}
+            Edit{" "}
           </button>
         </div>
       )}
@@ -80,6 +119,14 @@ function GetQueryClient() {
               }}>
               {" "}
               xóa post{" "}
+            </button>
+            <button
+              onClick={() => {
+                setPostId(post.id);
+                setShowEdit(true);
+              }}>
+              {" "}
+              Edit post{" "}
             </button>
           </div>
         );
@@ -98,5 +145,4 @@ function GetQueryClient() {
     </div>
   );
 }
-
 export default GetQueryClient;
